@@ -1,0 +1,10 @@
+Sphinx==1.5.2
+arrow==0.10.0
+flake8==3.2.1
+mccabe==0.5.3
+prompt-toolkit==1.0.9
+ptpdb==0.17
+ptpython==0.36
+pytest-pythonpath==0.7.1
+pytest==3.0.6
+virtualenv==15.1.0
