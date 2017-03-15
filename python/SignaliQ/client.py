@@ -1,15 +1,19 @@
 #!/usr/bin/env python
-###############################################################################
+################################################################################
 # vim: tabstop=4:shiftwidth=4:expandtab:
 # Copyright (c) 2017 SIOS Technology Corp. All rights reserved.
-##############################################################################
+################################################################################
 """
 This is the generic client library for use with SIOS iQ's Event Correlation API.
 You can use this library to send events into SIOS iQ from external sources.
 """
 
 import amqp
-from configparser import RawConfigParser
+# handle python 2 and 3
+try:
+    from configparser import RawConfigParser
+except:
+    from ConfigParser import RawConfigParser
 import json
 import logging
 from functools import partial
@@ -17,11 +21,9 @@ import os.path as path
 import ssl
 import sys
 
-
 from SignaliQ.model.ProviderEventsUpdateMessage import ProviderEventsUpdateMessage
 
 __log__ = logging.getLogger(__name__)
-
 
 class Client(object):
     """
@@ -44,10 +46,9 @@ class Client(object):
             datefmt = log_config.get("date_format", "%m-%d-%Y %I:%M:%S.%f"),
         )
 
-
     ###
     # PUBLIC
-    ##
+    ###
     def connect(self):
         """
         Connects to the given AMQP instance, defined in `self._config`.
@@ -57,7 +58,11 @@ class Client(object):
         params = self._build_connection_params()
 
         self._connection = amqp.Connection(**params)
-        self._connection.connect()
+        # handle older and newer versions of amqp
+        try:
+            self._connection.connect()
+        except:
+            pass
         self._channel = self._connection.channel()
 
         is_valid_connection = self._connection and self._channel
@@ -69,7 +74,6 @@ class Client(object):
 
         return is_valid_connection
 
-
     def disconnect(self):
         """
         Disconnects all connections and handles cleanup.
@@ -77,7 +81,6 @@ class Client(object):
         :returns: Result of the connection close method.
         """
         return self._connection.close()
-
 
     def send(self, message):
         """
@@ -109,7 +112,6 @@ class Client(object):
         __log__.info("Message sent to %s", self._config["connection"]["host"])
 
         return publish_result
-
 
     ###
     # HELPERS
@@ -149,7 +151,6 @@ class Client(object):
 
         return params
 
-
     def _build_config_from_file(self):
         """
         Handles building config dict from the standard config file, typically `config.ini`.
@@ -180,7 +181,6 @@ class Client(object):
 
         return config
 
-
     def _build_message_body(self, message):
         """
         Build the AMQP message based on the input data
@@ -203,7 +203,6 @@ class Client(object):
             application_headers = self.__amqp_config__["application_headers"],
         )
 
-
     def _get_current_dir(self):
         """
         :returns str: Current directory of script
@@ -214,7 +213,6 @@ class Client(object):
         self._current_dir = path.dirname(path.realpath(__file__))
         return self._current_dir
 
-
     def _serialize_models(self, obj):
         """
         Generic handler passed to `json.dumps`. This handles serializing
@@ -224,7 +222,6 @@ class Client(object):
         :returns: The objects `__dict__` property.
         """
         return obj.__dict__
-
 
     ###
     # PROPERTIES
