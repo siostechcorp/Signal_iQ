@@ -14,7 +14,7 @@ Quick Start
 
 .. code:: bash
 
-    git clone https://github.com/siostechcorp/SignaliQ_Python.git
+    git clone https://github.com/siostechcorp/Signal_iQ.git
 
 - Install required packages (requires sudo).
 
