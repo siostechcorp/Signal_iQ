@@ -9,8 +9,12 @@ import arrow
 import logging
 import json
 import unittest
+try:
+    from imp import reload
+except ImportError as e:
+    from importlib import reload
 
-from SignaliQ.client import Client
+from SignaliQ import client
 from SignaliQ.model.CloudProviderEvent import CloudProviderEvent
 from SignaliQ.model.ProviderEventsUpdateMessage import ProviderEventsUpdateMessage
 
@@ -20,8 +24,24 @@ __log__ = logging.getLogger(__name__)
 class TestClient(unittest.TestCase):
 
     def setUp(self):
-        self.client = Client()
+        # Mockout the config function so do not have to read from disk
+        def mock_build_config_from_file(self):
+            return {
+                "connection": {
+                    "host": "hostname",
+                },
+                "credentials": {
+                    "password": "my_password",
+                    "user": "admin",
+                },
+                "logging": {
+                    "date_format": "%m-%d-%Y %I:%M:%S.%f",
+                    "level": "INFO",
+                },
+            }
 
+        client.Client._build_config_from_file = mock_build_config_from_file
+        self.client = client.Client()
 
     def test_build_message_body(self):
         sample_data = json.dumps({"a": 1, "b": 2})
@@ -53,6 +73,48 @@ class TestClient(unittest.TestCase):
             default = self.client._serialize_models
         )
         self.assertIsInstance(result_dumps, str)
+
+
+class TestClientConstructor(unittest.TestCase):
+
+    def setUp(self):
+        reload(client)
+
+
+    def test_build_config_from_file__not_exists(self):
+        my_client = client.Client
+        my_client._current_dir = "/current_dir/"
+
+        with self.assertRaises(SystemExit) as exp:
+            my_client()
+
+        self.assertEqual(exp.exception.code, 1)
+
+
+    __mock_config__ = {
+        "connection": {
+            "host": "hostname",
+        },
+        "credentials": {
+            "password": "my_password",
+            "user": "admin",
+        },
+        "logging": {
+            "date_format": "%m-%d-%Y %I:%M:%S.%f",
+            "level": "INFO",
+        },
+    }
+
+    __mock_config_ini__ = (
+        "[connection] \n"
+        "host = no_such_host \n"
+        "[credentials] \n"
+        "password = change_this_value \n"
+        "user = admin \n"
+        "[logging] \n"
+        "date_format = %m-%d-%Y %I:%M:%S.%f \n"
+        "level = INFO \n"
+    )
 
 
 if __name__ == "__main__":
