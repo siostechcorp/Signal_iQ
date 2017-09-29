@@ -27,7 +27,7 @@ Quick Start
 - Update `config.ini` with **SIOS iQ** username and password, typically one used to log into the UI.
 
 - Run the **example** script to test that you can send a message to **SIOS iQ** instance. 
-  - You will need to find the _uuid_ of a vm from your appliance's environment(s)
+  - You will need to edit the file and put in an environment id from your appliance and the uuid of a vm that lives in that environment first.
 
 .. code:: bash
 
