@@ -18,6 +18,8 @@ sys.path.insert(0, '{}/../../'.format(curr_path))
 
 from SignaliQ.client import Client
 from SignaliQ.model.CloudProviderEvent import CloudProviderEvent
+from SignaliQ.model.CloudVM import CloudVM
+from SignaliQ.model.NetworkInterface import NetworkInterface
 from SignaliQ.model.ProviderEventsUpdateMessage import ProviderEventsUpdateMessage
 
 __log__ = logging.getLogger(__name__)
@@ -45,7 +47,38 @@ def main(args):
     # - 2017-03-03T06:00:00.000-05:00  (timezone specified)
     # - 2017-03-03T06:00:00-05:00      (timezone specified)
     ##
-    event_time = datetime(year = 2017, month = 3, day = 3, hour = 6, minute = 0, tzinfo = timezone('US/Eastern'))
+    event_time = datetime(
+        year = 2017, month = 3, day = 3, hour = 6, minute = 0, tzinfo = timezone('US/Eastern')
+    )
+
+    vms = [
+        CloudVM(uuid = "421bac04-f3d7-a600-ef5c-b3219e90d1eb"),
+        CloudVM(
+            network_interfaces = [
+                NetworkInterface(hw_address = "00:50:56:9b:7c:31"),
+                NetworkInterface(hw_address = "00:50:56:9b:06:1c"),
+            ],
+        ),
+        CloudVM(
+            network_interfaces = [
+                NetworkInterface(
+                    addresses = [
+                        "fe80::250:56ff:fe9b:5945", "10.17.109.123",
+                    ]
+                ),
+            ],
+        ),
+        CloudVM(
+            network_interfaces = [
+                NetworkInterface(
+                    hw_address = "00:50:56:93:c8:eb",
+                    addresses = [
+                        "fe80::250:56ff:fe93:c8eb", "2001:5c0:110e:3368:250:56ff:fe93:c8eb", "172.17.107.153"
+                    ]
+                ),
+            ],
+        ),
+    ]
 
     child_events = [
         CloudProviderEvent(
@@ -54,7 +87,7 @@ def main(args):
             event_type = "SDK Event",
             layer = "Compute",
             time = event_time.strftime('%Y-%m-%dT%H:%M:%S%z'),
-            vm_uuids = ["421bac04-f3d7-a600-ef5c-b3219e90d1eb"],
+            vms = vms,
         )
     ]
 

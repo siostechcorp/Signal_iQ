@@ -33,13 +33,18 @@ class CloudProviderEvent(object):
     :param str name: Display name for the given event.
     :param str severity: Either "Info", "Warning" or "Critical".
     """
-    def __init__(self, description, environment_id, event_type, layer, time, vm_uuids,
-                 category = "Performance", internal_type = "ProviderThirdParty",
+    def __init__(self, description, environment_id,
+                 event_type, layer, time,
+                 vms = [],
+                 vm_uuids = [],
+                 category = "Performance",
+                 internal_type = "ProviderThirdParty",
                  severity = "Info"):
+
         self.assocResourceCollection = {
-            "cloudVMs": [CloudVM(uuid = val) for val in vm_uuids],
+            "cloudVMs": vms if vms else [CloudVM(uuid = val) for val in vm_uuids]
         }
-        self.category = category.capitalize() # Uppercases only the first letter
+        self.category = category.capitalize()  # Uppercases only the first letter
         self.cloudEnvironment = {
             "healthState": "OK",
             "id": environment_id,
@@ -50,11 +55,11 @@ class CloudProviderEvent(object):
         }
         self.internalType = internal_type
         self.isNoise = True
-        self.layer = layer.capitalize() # Uppercases only the first letter
+        self.layer = layer.capitalize()  # Uppercases only the first letter
         self.name = event_type
         self.rootCauseResourceCollection = {
             "cloudVMs": [],
         }
-        self.severity = severity.capitalize() # Uppercases only the first letter
+        self.severity = severity.capitalize()  # Uppercases only the first letter
         self.time = time
         self.type = event_type
