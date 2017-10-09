@@ -41,27 +41,27 @@ This will return all VMs and one of the properties will be UUID. If you know a s
 ### Filtering
 The filtering syntax is best shown by the examples in the table below.  A query parameter called filter is used and its value is an expression based on the operators shown below.
 
-| Operator                      | Description                                                  | Example                                         |
-| ----------------------------- | ------------------------------------------------------------ | ----------------------------------------------- |
+| Operator                      | Description                                                    | Example                                         |
+| ----------------------------- | -------------------------------------------------------------- | ----------------------------------------------- |
 | Logical and Boolean Operators |
-|                               |                                                              |                                                 |
-| eq                            | Equal                                                        | /Suppliers?filter=Address.City eq 'Redmond'     |
-| ne                            | Not equal                                                    | /Suppliers?filter=Address.City ne 'London'      |
-| gt                            | Greater than                                                 | /Products?filter=Price gt 20                    |
-| ge                            | Greater than or equal 	/Products?filter=Price ge 10         |
-| lt                            | Less than 	/Products?filter=Price lt 20                     |
-| le                            | Less than or equal 	/Products?filter=Price le 100            |
-| and                           | Logical and 	/Products?filter=Price le 200 and Price gt 3.5 |
-| or                            | Logical or 	/Products?filter=Price le 3.5 or Price gt 200    |
-| not                           | Logical negation 	/Products?filter=not Price eq 100          |
-|                               |                                                              |                                                 |
+|                               |                                                                |                                                 |
+| eq                            | Equal                                                          | /Suppliers?filter=Address.City eq 'Redmond'     |
+| ne                            | Not equal                                                      | /Suppliers?filter=Address.City ne 'London'      |
+| gt                            | Greater than                                                   | /Products?filter=Price gt 20                    |
+| ge                            | Greater than or equal     /Products?filter=Price ge 10         |
+| lt                            | Less than     /Products?filter=Price lt 20                     |
+| le                            | Less than or equal     /Products?filter=Price le 100           |
+| and                           | Logical and     /Products?filter=Price le 200 and Price gt 3.5 |
+| or                            | Logical or     /Products?filter=Price le 3.5 or Price gt 200   |
+| not                           | Logical negation     /Products?filter=not Price eq 100         |
+|                               |                                                                |                                                 |
 | Grouping Operators            |
-|                               |                                                              |                                                 |
-| ( )                           | Precedence grouping                                          | /Products?filter=(Price lt 5) and (Price gt 2)  |
+|                               |                                                                |                                                 |
+| ( )                           | Precedence grouping                                            | /Products?filter=(Price lt 5) and (Price gt 2)  |
 | String-specific Operators     |
-|                               |                                                              |                                                 |
-| like                          | string contains                                              | /Suppliers?filter=Address.City like 'ville'     |
-| ilike                         | case-insensitive string contains                             | /Suppliers?filter=Address.County ilike 'lexing' |
+|                               |                                                                |                                                 |
+| like                          | string contains                                                | /Suppliers?filter=Address.City like 'ville'     |
+| ilike                         | case-insensitive string contains                               | /Suppliers?filter=Address.County ilike 'lexing' |
 | Set Operators                 |
-|                               |                                                              |                                                 |
-| contains                      | Collection contains (specify ID of contained object)         | /Stores?filter=ProductList contains 42#.        |
+|                               |                                                                |                                                 |
+| contains                      | Collection contains (specify ID of contained object)           | /Stores?filter=ProductList contains 42#.        |

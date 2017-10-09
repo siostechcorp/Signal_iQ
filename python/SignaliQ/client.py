@@ -12,7 +12,7 @@ import amqp
 # handle python 2 and 3
 try:
     from configparser import RawConfigParser
-except:
+except ImportError:
     from ConfigParser import RawConfigParser
 import json
 import logging
@@ -24,6 +24,7 @@ import sys
 from SignaliQ.model.ProviderEventsUpdateMessage import ProviderEventsUpdateMessage
 
 __log__ = logging.getLogger(__name__)
+
 
 class Client(object):
     """
@@ -58,11 +59,13 @@ class Client(object):
         params = self._build_connection_params()
 
         self._connection = amqp.Connection(**params)
+
         # handle older and newer versions of amqp
         try:
             self._connection.connect()
-        except:
+        except: # NOQA
             pass
+
         self._channel = self._connection.channel()
 
         is_valid_connection = self._connection and self._channel
@@ -70,7 +73,7 @@ class Client(object):
         if is_valid_connection:
             __log__.info("Connection successfully created.")
         else:
-            __log__.info("FAILED to create connection or channel!")
+            __log__.error("FAILED to create connection or channel!")
 
         return is_valid_connection
 
@@ -127,7 +130,6 @@ class Client(object):
         creds_config = self._config["credentials"]
         ssl_config = self.__ssl_config__
         ssl_dir = partial(path.join, self._current_dir, ssl_config["directory"])
-
 
         ssl_opts = {
             "ca_certs": ssl_dir(ssl_config["ca_certs"]),
