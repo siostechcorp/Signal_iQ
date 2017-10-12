@@ -70,7 +70,13 @@ def main(args):
 
     id_list = [id_uuids for xx in range(5)]
 
-    event_time = datetime.now().replace(tzinfo = timezone('US/Eastern'))
+    event_time = (
+        datetime
+        .now()
+        .replace(tzinfo = timezone('US/Eastern'))
+        .strftime('%Y-%m-%dT%H:%M:%S%z')
+    )
+
     for idx in id_list:
         for env_id, uuids in id_uuids.items():
             event_time += timedelta(minutes = 5)
@@ -80,7 +86,7 @@ def main(args):
                     environment_id = env_id,
                     layer = "Storage",
                     severity = "Critical",
-                    time = event_time.strftime('%Y-%m-%dT%H:%M:%S%z'),
+                    time = event_time,
                     event_type = "SDK Event",
                     vm_uuids = uuids,
                 )
@@ -93,7 +99,7 @@ def main(args):
 
             client.send(event_message)
 
-
+    # DONE
     client.disconnect()
 
 

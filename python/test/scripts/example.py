@@ -48,34 +48,24 @@ def main(args):
     # - 2017-03-03T06:00:00-05:00      (timezone specified)
     ##
     event_time = datetime(
-        year = 2017, month = 3, day = 3, hour = 6, minute = 0, tzinfo = timezone('US/Eastern')
-    )
+        year = 2017, month = 10, day = 10, hour = 3, minute = 15, tzinfo = timezone('US/Eastern')
+    ).strftime('%Y-%m-%dT%H:%M:%S%z')
+    environment_id = 500 # name: Env 6.5 QA
 
     vms = [
-        CloudVM(uuid = "421bac04-f3d7-a600-ef5c-b3219e90d1eb"),
         CloudVM(
             network_interfaces = [
-                NetworkInterface(hw_address = "00:50:56:9b:7c:31"),
+                NetworkInterface(hw_address = "00:50:56:93:7a:b9"),
                 NetworkInterface(hw_address = "00:50:56:9b:06:1c"),
             ],
         ),
         CloudVM(
-            network_interfaces = [
-                NetworkInterface(
-                    addresses = [
-                        "fe80::250:56ff:fe9b:5945", "10.17.109.123",
-                    ]
-                ),
-            ],
+            uuid = "421321c6-2d7a-0b73-942e-e539bda95775"
         ),
         CloudVM(
             network_interfaces = [
-                NetworkInterface(
-                    hw_address = "00:50:56:93:c8:eb",
-                    addresses = [
-                        "fe80::250:56ff:fe93:c8eb", "2001:5c0:110e:3368:250:56ff:fe93:c8eb", "172.17.107.153"
-                    ]
-                ),
+                NetworkInterface(hw_address = "00:50:56:9b:7c:a8"),
+                NetworkInterface(hw_address = "00:50:56:9b:2f:a0"),
             ],
         ),
     ]
@@ -83,21 +73,26 @@ def main(args):
     child_events = [
         CloudProviderEvent(
             description = "Caused by phase of the moon.",
-            environment_id = 250,
+            environment_id = environment_id,
             event_type = "SDK Event",
             layer = "Compute",
-            time = event_time.strftime('%Y-%m-%dT%H:%M:%S%z'),
+            time = event_time,
             vms = vms,
         )
     ]
 
     event_message = ProviderEventsUpdateMessage(
-        environment_id = 250,
+        environment_id = environment_id,
         events = child_events,
     )
 
     # Setup the client and send the data!
     client = Client()
+
+    __log__.info(
+        "Creating event with time {} and env id of {}".format(event_time, environment_id)
+    )
+
     client.connect()
     client.send(event_message)
     client.disconnect()
