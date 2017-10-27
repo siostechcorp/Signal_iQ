@@ -54,7 +54,7 @@ class CloudProviderEvent(object):
             "cloudVMs": [],
         }
         self.internalType = internal_type
-        self.isNoise = True
+        # self.isNoise = False ## Do not specify the isNoise flag
         self.layer = layer.capitalize()  # Uppercases only the first letter
         self.name = event_type
         self.rootCauseResourceCollection = {
