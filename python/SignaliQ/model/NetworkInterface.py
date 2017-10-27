@@ -25,5 +25,5 @@ class NetworkInterface(object):
             )
             return
 
-        self.hwAddress = hw_address
+        self.hwAddress = hw_address.replace("-", ":")
         self.networkAddresses = [{"address": ip} for ip in addresses]
