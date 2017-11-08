@@ -31,6 +31,7 @@ class CloudProviderEvent(object):
     :param str category: Possible PERC value.
     :param str internal_type: Type of event.
     :param str name: Display name for the given event.
+    :param str source: Value used to filter out sources of events.
     :param str severity: Either "Info", "Warning" or "Critical".
     """
     def __init__(self, description, environment_id,
@@ -39,6 +40,7 @@ class CloudProviderEvent(object):
                  vm_uuids = [],
                  category = "Performance",
                  internal_type = "ProviderThirdParty",
+                 source = "SDK",
                  severity = "Info"):
 
         self.assocResourceCollection = {
@@ -61,5 +63,6 @@ class CloudProviderEvent(object):
             "cloudVMs": [],
         }
         self.severity = severity.capitalize()  # Uppercases only the first letter
+        self.source = source
         self.time = time
         self.type = event_type
