@@ -48,9 +48,9 @@ def main(args):
     # - 2017-03-03T06:00:00-05:00      (timezone specified)
     ##
     event_time = datetime(
-        year = 2017, month = 10, day = 10, hour = 3, minute = 15, tzinfo = timezone('US/Eastern')
+        year = 2017, month = 11, day = 1, hour = 3, minute = 15, tzinfo = timezone('US/Eastern')
     ).strftime('%Y-%m-%dT%H:%M:%S%z')
-    environment_id = 500 # name: Env 6.5 QA
+    environment_id = 500  # name: Env 6.5 QA
 
     vms = [
         CloudVM(
@@ -76,6 +76,7 @@ def main(args):
             environment_id = environment_id,
             event_type = "SDK Event",
             layer = "Compute",
+            source = "Example.py",
             time = event_time,
             vms = vms,
         )
