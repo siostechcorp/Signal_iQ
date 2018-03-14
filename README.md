@@ -18,7 +18,7 @@ This section will cover where such can be obtained manually (through UI) and/or 
 1. Please make sure you are running SIOS iQ 3.13 or later.
 2. There are two ways to obtain the environment id:
   (a) SIOS iQ user interface by accessing Inventory -> Environment of Interest -> Properties where ID will appear right under the name of the environment.
-  (b) Another approach is a programmatic approach by sending the GET request to https://<ip or FQDN>/api/sios/stc/cldo/environment 
+  (b) Another approach is a programmatic approach by sending the GET request to `https://<ip or FQDN>/api/sios/stc/cldo/environment`
 
 JSON output:
 

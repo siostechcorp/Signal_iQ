@@ -28,7 +28,8 @@ class CloudProviderEvent(object):
     :param str time: Time of the event.
     :param str[] vm_uuids: List of "UUID"s of the VMs involved in the event.
 
-    :param str category: Possible PERC value.
+    :param str category: For anomaly events use "Performance", for
+                         availability events use "Reliability".
     :param str internal_type: Type of event.
     :param str name: Display name for the given event.
     :param str source: Value used to filter out sources of events.
