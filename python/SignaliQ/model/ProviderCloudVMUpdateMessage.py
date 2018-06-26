@@ -6,20 +6,17 @@
 
 class ProviderClusterUpdateMessage(object):
     """
-    Model class for SIOS iQ's "ProviderClusterUpdateMessage". This model is used to
-    represent the message injected into the AMQP exchange. Cluster and VM info will
-    be used to augment event information.
+    Model class for SIOS iQ's "ProviderCloudVMUpdateMessage". This model is used to
+    represent the message injected into the AMQP exchange. VM info will
+    be used to augment SIOS iQ event information.
 
     :param int environment_id: Environment's id for correlation
-    :param clusters: List of cluster objects
     :param vms: List of vm objects
-    :type clusters: Cluster[]
     :type vms: CloudVM[]
     """
-    def __init__(self, environment_id, clusters = [], vms = []):
+    def __init__(self, environment_id, vms = []):
         self.environment = {
             "id": environment_id,
             "statusCode": "OK",
         }
-        self.clusters = clusters
         self.cloudVMs = vms
