@@ -4,20 +4,19 @@
 # Copyright (c) 2017-2018 SIOS Technology Corp. All rights reserved.
 ##############################################################################
 
-
-class ProviderEventsUpdateMessage(object):
+class ProviderCloudVMUpdateMessage(object):
     """
-    Model class for SIOS iQ's "ProviderEventsUpdateMessage". This model is used to
-    represent the message injected into the AMQP exchange. Each event will
-    be used in the correlations.
+    Model class for SIOS iQ's "ProviderCloudVMUpdateMessage". This model is used to
+    represent the message injected into the AMQP exchange. VM info will
+    be used to augment SIOS iQ event information.
 
     :param int environment_id: Environment's id for correlation
-    :param events: List of event objects
-    :type events: CloudProviderEvent.CloudProviderEvent[]
+    :param vms: List of vm objects
+    :type vms: CloudVM[]
     """
-    def __init__(self, environment_id, events):
+    def __init__(self, environment_id, vms = []):
         self.environment = {
             "id": environment_id,
             "statusCode": "OK",
         }
-        self.events = events
+        self.cloudVMs = vms

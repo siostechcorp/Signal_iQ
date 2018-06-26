@@ -28,7 +28,7 @@ setup(
     "with SIOS iQ Machine Learning product capabilities.",
     long_description=readme + "\n\n" + doclink + "\n\n" + history,
     author="SIOS Technology Corp",
-    author_email="travis.goldie@us.sios.com",
+    author_email="support@us.sios.com",
     url="https://github.com/siostechcorp/SignaliQ",
     packages=[
         "SignaliQ",
@@ -41,7 +41,8 @@ setup(
     zip_safe=False,
     keywords="SignaliQ",
     classifiers=[
-        "Development Status :: 2 - Pre-Alpha",
+        "Operating System :: OS Independent",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
