@@ -4,7 +4,7 @@
 # Copyright (c) 2017-2018 SIOS Technology Corp. All rights reserved.
 ##############################################################################
 
-class ProviderClusterUpdateMessage(object):
+class ProviderCloudVMUpdateMessage(object):
     """
     Model class for SIOS iQ's "ProviderCloudVMUpdateMessage". This model is used to
     represent the message injected into the AMQP exchange. VM info will
