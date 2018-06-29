@@ -17,9 +17,9 @@ class Cluster(object):
     :param str state: State of the Cluster.
     :param ClusterType type: Type of Cluster.
     """
-    def __init__(self, name, uuid, type):
+    def __init__(self, name, uuid, state, type):
         if not uuid or not name or not state:
-            __log__.error("Must provide the name and uuid!")
+            __log__.error("Must provide the name, state, and uuid!")
             return
 
         if not isinstance(type, ClusterType):
@@ -27,6 +27,7 @@ class Cluster(object):
 
         self.name = name
         self.uuid = uuid
+        self.state = state
 
 # Enum for cluster type.
 class ClusterType(Enum):
