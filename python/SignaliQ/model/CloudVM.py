@@ -14,11 +14,11 @@ class CloudVM(object):
 
     :param str uuid: Unique identifier for the VM.
     :param network_interfaces: Network interfaces for the VM.
-    :param clusters (optional): Clusters for the VM.
+    :param app_clusters (optional): Application Clusters for the VM.
     :type network_interfaces: NetworkInterface[]
-    :type clusters: Cluster[]
+    :type app_clusters: AppCluster[]
     """
-    def __init__(self, uuid = "", network_interfaces = [], clusters = []):
+    def __init__(self, uuid = "", network_interfaces = [], app_clusters = []):
         if not uuid and not network_interfaces:
             __log__.error(
                 "Must provide either the uuid and/or the network interfaces!"
@@ -27,4 +27,4 @@ class CloudVM(object):
 
         self.uuid = uuid
         self.networkInterfaces = network_interfaces
-        self.clusters = clusters
+        self.appClusters = app_clusters
