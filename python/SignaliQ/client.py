@@ -99,7 +99,7 @@ class Client(object):
             __log__.error("Connection or channel is not defined! Must call `connect` first!")
             return False
 
-        if message is None or not isinstance(message, ProviderEventsUpdateMessage) or not isinstance(message, ProviderCloudVMUpdateMessage):
+        if message is None or (not isinstance(message, ProviderEventsUpdateMessage) and not isinstance(message, ProviderCloudVMUpdateMessage)):
             __log__.error(
                 "Message is not valid! %s. Expected to be ProviderEventsUpdateMessage",
                 message
