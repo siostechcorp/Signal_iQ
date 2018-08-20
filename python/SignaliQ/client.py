@@ -22,6 +22,7 @@ import ssl
 import sys
 
 from SignaliQ.model.ProviderEventsUpdateMessage import ProviderEventsUpdateMessage
+from SignaliQ.model.ProviderCloudVMUpdateMessage import ProviderCloudVMUpdateMessage
 
 __log__ = logging.getLogger(__name__)
 
