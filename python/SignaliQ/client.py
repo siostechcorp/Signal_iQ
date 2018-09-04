@@ -203,7 +203,9 @@ class Client(object):
             body = message_str,
             content_type = self.__amqp_config__["content_type"],
             content_encoding = self.__amqp_config__["content_encoding"],
-            application_headers = self.__amqp_config__["application_headers"],
+            application_headers = {
+                "__TypeId__": "com.sios.stc.model.messaging." + type(message).__name__
+            }
         )
 
     def _get_current_dir(self):
@@ -230,9 +232,6 @@ class Client(object):
     # PROPERTIES
     ###
     __amqp_config__ = {
-        "application_headers": {
-            "__TypeId__": "com.sios.stc.model.messaging.ProviderEventsUpdateMessage"
-        },
         "content_encoding": "UTF-8",
         "content_type": "application/json",
         "exchange": "cldo.exchange.provider.allservices",
