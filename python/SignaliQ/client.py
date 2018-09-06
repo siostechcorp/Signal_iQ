@@ -39,7 +39,7 @@ class Client(object):
         self._current_dir = None
         self._params = None
 
-        config_file = path.join(self._get_current_dir(), "config.ini")
+        config_file = path.join(self._get_file_dirname(), "config.ini")
         self._config = config if config else self.build_config_from_file(config_file)
 
         # Setup logging
@@ -208,7 +208,7 @@ class Client(object):
             }
         )
 
-    def _get_current_dir(self):
+    def _get_file_dirname(self):
         """
         :returns str: Current directory of script
         """
