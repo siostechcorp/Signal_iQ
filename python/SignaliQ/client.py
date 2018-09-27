@@ -45,9 +45,11 @@ class Client(object):
         # Setup logging
         log_config = self._config.get("logging", {})
         logging.basicConfig(
-            level = log_config.get("level", "INFO"),
-            datefmt = log_config.get("date_format", "%m-%d-%Y %I:%M:%S.%f"),
+            level=log_config.get("level", "INFO"),
+            format='%(asctime)s %(levelname)s %(message)s',
         )
+
+        __log__.debug("config: {0}".format(json.dumps(self._config, indent=4)))
 
     ###
     # PUBLIC

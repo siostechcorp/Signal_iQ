@@ -40,14 +40,13 @@ class TestClient(unittest.TestCase):
                 },
             }
 
-        client.Client._build_config_from_file = mock_build_config_from_file
+        client.Client.build_config_from_file = mock_build_config_from_file
         self.client = client.Client()
 
     def test_build_message_body(self):
         sample_data = json.dumps({"a": 1, "b": 2})
         result = self.client._build_message_body(sample_data)
         self.assertIsInstance(result, amqp.Message)
-
 
     def test_serialize_models(self):
         events = [
@@ -80,7 +79,6 @@ class TestClientConstructor(unittest.TestCase):
     def setUp(self):
         reload(client)
 
-
     def test_build_config_from_file__not_exists(self):
         my_client = client.Client
         my_client._current_dir = "/current_dir/"
@@ -89,7 +87,6 @@ class TestClientConstructor(unittest.TestCase):
             my_client()
 
         self.assertEqual(exp.exception.code, 1)
-
 
     __mock_config__ = {
         "connection": {
