@@ -39,14 +39,17 @@ class Client(object):
         self._current_dir = None
         self._params = None
 
-        self._config = config if config else self._build_config_from_file()
+        config_file = path.join(self._get_file_dirname(), "config.ini")
+        self._config = config if config else self.build_config_from_file(config_file)
 
         # Setup logging
         log_config = self._config.get("logging", {})
         logging.basicConfig(
-            level = log_config.get("level", "INFO"),
-            datefmt = log_config.get("date_format", "%m-%d-%Y %I:%M:%S.%f"),
+            level=log_config.get("level", "INFO"),
+            format='%(asctime)s %(levelname)s %(message)s',
         )
+
+        __log__.debug("config: {0}".format(json.dumps(self._config, indent=4)))
 
     ###
     # PUBLIC
@@ -117,6 +120,35 @@ class Client(object):
 
         return publish_result
 
+    def build_config_from_file(self, config_file):
+        """
+        Handles building config dict from the standard config file, typically `config.ini`.
+
+        :returns: The config object from the default config file
+        :rtype: dict
+        """
+        if not path.exists(config_file):
+            message = (
+                "Expected to see config file at {}. \n\n"
+                "Copy `config.sample.ini` to `config.ini`, and update the required \n"
+                "fields such as username, password, and hostname. \n"
+            ).format(config_file)
+            sys.stderr.write(message)
+            sys.exit(1)
+
+        # Uses the RawConfigParser to prevent interpolation
+        parser = RawConfigParser()
+        parser.read(config_file)
+
+        # Convert configparser into regular dict
+        config = {}
+        for section in parser.sections():
+            config[section] = {}
+            for opt in parser.options(section):
+                config[section][opt] = parser.get(section, opt)
+
+        return config
+
     ###
     # HELPERS
     ###
@@ -154,36 +186,6 @@ class Client(object):
 
         return params
 
-    def _build_config_from_file(self):
-        """
-        Handles building config dict from the standard config file, typically `config.ini`.
-
-        :returns: The config object from the default config file
-        :rtype: dict
-        """
-        config_file = path.join(self._get_current_dir(), "config.ini")
-        if not path.exists(config_file):
-            message = (
-                "Expected to see config file at {}. \n\n"
-                "Copy `config.sample.ini` to `config.ini`, and update the required \n"
-                "fields such as username, password, and hostname. \n"
-            ).format(config_file)
-            sys.stderr.write(message)
-            sys.exit(1)
-
-        # Uses the RawConfigParser to prevent interpolation
-        parser = RawConfigParser()
-        parser.read(config_file)
-
-        # Convert configparser into regular dict
-        config = {}
-        for section in parser.sections():
-            config[section] = {}
-            for opt in parser.options(section):
-                config[section][opt] = parser.get(section, opt)
-
-        return config
-
     def _build_message_body(self, message):
         """
         Build the AMQP message based on the input data
@@ -208,7 +210,7 @@ class Client(object):
             }
         )
 
-    def _get_current_dir(self):
+    def _get_file_dirname(self):
         """
         :returns str: Current directory of script
         """
